@@ -2,7 +2,7 @@ namespace Template.DesktopApp.Views.Main;
 
 using Smart.Avalonia.Input;
 
-public sealed partial class MenuViewModel : AppViewModelBase
+public sealed class MenuViewModel : AppViewModelBase
 {
     public string Message { get; set; }
 

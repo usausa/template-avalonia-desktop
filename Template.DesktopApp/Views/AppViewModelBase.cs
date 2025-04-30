@@ -3,7 +3,7 @@ namespace Template.DesktopApp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 // TODO
-public class AppViewModelBase : ObservableObject, INavigatorAware, INavigationEventSupport
+public abstract class AppViewModelBase : ObservableObject, INavigatorAware, INavigationEventSupport
 {
     public INavigator Navigator { get; set; } = default!;
 

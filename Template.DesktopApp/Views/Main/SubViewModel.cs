@@ -2,7 +2,7 @@ namespace Template.DesktopApp.Views.Main;
 
 using Smart.Avalonia.Input;
 
-public sealed partial class SubViewModel : AppViewModelBase
+public sealed class SubViewModel : AppViewModelBase
 {
     public string Message { get; set; }
 
