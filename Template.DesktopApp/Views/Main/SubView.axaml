@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Template.DesktopApp.Views.Main"
              mc:Ignorable="d"
              x:Class="Template.DesktopApp.Views.Main.SubView"
-             x:DataType="{x:Type local:SubViewModel}"
+             x:DataType="local:SubViewModel"
              sr:DataContextResolver.Type="local:SubViewModel"
              d:DesignWidth="800" d:DesignHeight="450">
 

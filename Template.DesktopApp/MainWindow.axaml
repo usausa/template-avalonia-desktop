@@ -7,7 +7,7 @@
         xmlns:app="using:Template.DesktopApp"
         mc:Ignorable="d"
         x:Class="Template.DesktopApp.MainWindow"
-        x:DataType="{x:Type app:MainWindowViewModel}"
+        x:DataType="app:MainWindowViewModel"
         sr:DataContextResolver.Type="app:MainWindowViewModel"
         Title="Template.DesktopApp"
         Icon="/Assets/avalonia-logo.ico"

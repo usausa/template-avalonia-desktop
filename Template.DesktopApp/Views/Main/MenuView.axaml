@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Template.DesktopApp.Views.Main"
              mc:Ignorable="d"
              x:Class="Template.DesktopApp.Views.Main.MenuView"
-             x:DataType="{x:Type local:MenuViewModel}"
+             x:DataType="local:MenuViewModel"
              sr:DataContextResolver.Type="local:MenuViewModel"
              d:DesignWidth="800" d:DesignHeight="450">
 
