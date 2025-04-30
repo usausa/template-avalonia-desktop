@@ -74,6 +74,7 @@ public partial class App : Application
 
     private static IHost CreateHost()
     {
+        // TODO Resolver ?
         var builder = Host.CreateApplicationBuilder();
 
         // Log
@@ -87,13 +88,11 @@ public partial class App : Application
         builder.Services.Configure<Setting>(builder.Configuration.GetSection("Setting"));
 
         // View
-        // TODO
+        // TODO ?
         builder.Services.AddSingleton<MainWindow>();
         builder.Services.AddTransient<MainWindowViewModel>();
-        builder.Services.AddTransient<Template.DesktopApp.Modules.Main.MenuView>();
-        builder.Services.AddTransient<Template.DesktopApp.Modules.Main.MenuViewModel>();
-        builder.Services.AddTransient<Template.DesktopApp.Modules.Main.SubView>();
-        builder.Services.AddTransient<Template.DesktopApp.Modules.Main.SubViewModel>();
+        builder.Services.AddViews();
+        builder.Services.AddViewModels();
 
         // Navigator
         builder.Services.AddSingleton<Navigator>(p =>
@@ -106,8 +105,7 @@ public partial class App : Application
             navigator.Navigated += (_, args) =>
             {
                 // for debug
-                System.Diagnostics.Debug.WriteLine(
-                    $"Navigated: [{args.Context.FromId}]->[{args.Context.ToId}] : stacked=[{navigator.StackedCount}]");
+                System.Diagnostics.Debug.WriteLine($"Navigated: [{args.Context.FromId}]->[{args.Context.ToId}] : stacked=[{navigator.StackedCount}]");
             };
 
             return navigator;
