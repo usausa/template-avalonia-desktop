@@ -62,11 +62,13 @@ public static partial class ApplicationExtensions
                 .UseServiceProvider(resolver)
                 .UseIdViewMapper(static m => m.AutoRegister(ViewSource()))
                 .ToNavigator();
+#if DEBUG
             navigator.Navigated += (_, args) =>
             {
                 // for debug
                 System.Diagnostics.Debug.WriteLine($"Navigated: [{args.Context.FromId}]->[{args.Context.ToId}] : stacked=[{navigator.StackedCount}]");
             };
+#endif
 
             return navigator;
         });
