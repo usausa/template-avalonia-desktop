@@ -4,7 +4,7 @@ using BunnyTail.ServiceRegistration;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Template.DesktopApp.Modules;
+using Template.DesktopApp.Views;
 
 public static partial class Components
 {
@@ -15,13 +15,9 @@ public static partial class Components
 
     // Services
 
-    // TODO
+    private const string ModuleNamespace = "Template.DesktopApp.Views";
 
-    //[ServiceRegistration(Lifetime.Transient, "View$", Namespace = "Template.DesktopApp.Modules")]
-    [ServiceRegistration(Lifetime.Transient, "View$")]
+    [ServiceRegistration(Lifetime.Transient, "View$", Namespace = ModuleNamespace)]
+    [ServiceRegistration(Lifetime.Transient, "ViewModel$", Namespace = ModuleNamespace)]
     public static partial IServiceCollection AddViews(this IServiceCollection services);
-
-    //[ServiceRegistration(Lifetime.Transient, "ViewModel$", Namespace = "Template.DesktopApp.Modules")]
-    [ServiceRegistration(Lifetime.Transient, "ViewModel$")]
-    public static partial IServiceCollection AddViewModels(this IServiceCollection services);
 }

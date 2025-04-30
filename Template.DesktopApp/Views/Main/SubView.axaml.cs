@@ -1,4 +1,4 @@
-namespace Template.DesktopApp.Modules.Main;
+namespace Template.DesktopApp.Views.Main;
 
 using Avalonia.Controls;
 

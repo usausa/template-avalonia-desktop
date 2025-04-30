@@ -15,7 +15,7 @@ using Serilog;
 
 using Smart.Avalonia.Resolver;
 
-using Template.DesktopApp.Modules;
+using Template.DesktopApp.Views;
 using Template.DesktopApp.Settings;
 
 // ReSharper disable once PartialTypeWithSinglePart
@@ -88,11 +88,9 @@ public partial class App : Application
         builder.Services.Configure<Setting>(builder.Configuration.GetSection("Setting"));
 
         // View
-        // TODO ?
         builder.Services.AddSingleton<MainWindow>();
-        builder.Services.AddTransient<MainWindowViewModel>();
+        builder.Services.AddSingleton<MainWindowViewModel>();
         builder.Services.AddViews();
-        builder.Services.AddViewModels();
 
         // Navigator
         builder.Services.AddSingleton<Navigator>(p =>

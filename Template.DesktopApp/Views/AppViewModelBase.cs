@@ -1,4 +1,4 @@
-namespace Template.DesktopApp.Modules;
+namespace Template.DesktopApp.Views;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 

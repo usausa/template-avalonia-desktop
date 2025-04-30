@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sr="clr-namespace:Smart.Avalonia.Resolver;assembly=Smart.Avalonia"
-             xmlns:local="clr-namespace:Template.DesktopApp.Modules.Main"
+             xmlns:local="clr-namespace:Template.DesktopApp.Views.Main"
              mc:Ignorable="d"
-             x:Class="Template.DesktopApp.Modules.Main.SubView"
+             x:Class="Template.DesktopApp.Views.Main.SubView"
              x:DataType="{x:Type local:SubViewModel}"
              sr:DataContextResolver.Type="local:SubViewModel"
              d:DesignWidth="800" d:DesignHeight="450">
