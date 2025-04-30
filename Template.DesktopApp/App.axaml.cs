@@ -1,7 +1,5 @@
 namespace Template.DesktopApp;
 
-using System.Runtime.InteropServices;
-
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
@@ -9,14 +7,10 @@ using Avalonia.Markup.Xaml;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
-using Serilog;
 
 using Smart.Avalonia.Resolver;
 
 using Template.DesktopApp.Views;
-using Template.DesktopApp.Settings;
 
 // ReSharper disable once PartialTypeWithSinglePart
 public partial class App : Application
@@ -27,7 +21,10 @@ public partial class App : Application
     {
         AvaloniaXamlLoader.Load(this);
 
-        host = CreateHost();
+        host = Host.CreateApplicationBuilder()
+            .ConfigureLogging()
+            .ConfigureComponents()
+            .Build();
         ResolveProvider.Default.Provider = host.Services;
     }
 
@@ -50,65 +47,16 @@ public partial class App : Application
         // MainWindow
         desktop.MainWindow = host.Services.GetRequiredService<MainWindow>();
 
-        // Startup log
-        var log = host.Services.GetRequiredService<ILogger<App>>();
-        var environment = host.Services.GetRequiredService<IHostEnvironment>();
-        ThreadPool.GetMinThreads(out var workerThreads, out var completionPortThreads);
-
-        log.InfoStartup();
-        log.InfoStartupSettingsRuntime(RuntimeInformation.OSDescription, RuntimeInformation.FrameworkDescription, RuntimeInformation.RuntimeIdentifier);
-        log.InfoStartupSettingsGC(GCSettings.IsServerGC, GCSettings.LatencyMode, GCSettings.LargeObjectHeapCompactionMode);
-        log.InfoStartupSettingsThreadPool(workerThreads, completionPortThreads);
-        log.InfoStartupApplication(environment.ApplicationName, typeof(App).Assembly.GetName().Version);
-        log.InfoStartupEnvironment(environment.EnvironmentName, environment.ContentRootPath);
-
         base.OnFrameworkInitializationCompleted();
 
         // Start host
         await host.StartAsync().ConfigureAwait(false);
 
-        // Navigate
+        // Startup log
+        host.LogStartupInformation();
+
+        // Navigate to view
         var navigator = host.Services.GetRequiredService<Navigator>();
         await navigator.ForwardAsync(ViewId.Menu);
-    }
-
-    private static IHost CreateHost()
-    {
-        // TODO Resolver ?
-        var builder = Host.CreateApplicationBuilder();
-
-        // Log
-        builder.Logging.ClearProviders();
-        builder.Services.AddSerilog(options =>
-        {
-            options.ReadFrom.Configuration(builder.Configuration);
-        });
-
-        // Setting
-        builder.Services.Configure<Setting>(builder.Configuration.GetSection("Setting"));
-
-        // View
-        builder.Services.AddSingleton<MainWindow>();
-        builder.Services.AddSingleton<MainWindowViewModel>();
-        builder.Services.AddViews();
-
-        // Navigator
-        builder.Services.AddSingleton<Navigator>(p =>
-        {
-            var navigator = new NavigatorConfig()
-                .UseAvaloniaNavigationProvider()
-                .UseServiceProvider(p)
-                .UseIdViewMapper(static m => m.AutoRegister(Components.ViewSource()))
-                .ToNavigator();
-            navigator.Navigated += (_, args) =>
-            {
-                // for debug
-                System.Diagnostics.Debug.WriteLine($"Navigated: [{args.Context.FromId}]->[{args.Context.ToId}] : stacked=[{navigator.StackedCount}]");
-            };
-
-            return navigator;
-        });
-
-        return builder.Build();
     }
 }

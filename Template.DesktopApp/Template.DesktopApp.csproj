@@ -40,7 +40,6 @@
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.8" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.8" />
     <PackageReference Include="Avalonia.LinuxFramebuffer" Version="11.2.8" />
-    <PackageReference Include="BunnyTail.ServiceRegistration" Version="1.6.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
     <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
