@@ -1,4 +1,4 @@
-namespace Template.AvaloniaApp.Modules.Main;
+namespace Template.DesktopApp.Modules.Main;
 
 using Smart.Avalonia.Input;
 

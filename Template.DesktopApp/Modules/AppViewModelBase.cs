@@ -1,4 +1,4 @@
-namespace Template.AvaloniaApp.Modules;
+namespace Template.DesktopApp.Modules;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 

@@ -1,4 +1,4 @@
-namespace Template.AvaloniaApp.Settings;
+namespace Template.DesktopApp.Settings;
 
 public class Setting
 {

@@ -1,4 +1,4 @@
-namespace Template.AvaloniaApp;
+namespace Template.DesktopApp;
 
 using System.Runtime.InteropServices;
 
@@ -6,9 +6,6 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-
-using AvaloniaApp.Settings;
-using AvaloniaApp.Modules;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,7 +15,8 @@ using Serilog;
 
 using Smart.Avalonia.Resolver;
 
-using Template.AvaloniaApp.Modules.Main;
+using Template.DesktopApp.Modules;
+using Template.DesktopApp.Settings;
 
 // ReSharper disable once PartialTypeWithSinglePart
 public partial class App : Application
@@ -92,10 +90,10 @@ public partial class App : Application
         // TODO
         builder.Services.AddSingleton<MainWindow>();
         builder.Services.AddTransient<MainWindowViewModel>();
-        builder.Services.AddTransient<MenuView>();
-        builder.Services.AddTransient<MenuViewModel>();
-        builder.Services.AddTransient<SubView>();
-        builder.Services.AddTransient<SubViewModel>();
+        builder.Services.AddTransient<Template.DesktopApp.Modules.Main.MenuView>();
+        builder.Services.AddTransient<Template.DesktopApp.Modules.Main.MenuViewModel>();
+        builder.Services.AddTransient<Template.DesktopApp.Modules.Main.SubView>();
+        builder.Services.AddTransient<Template.DesktopApp.Modules.Main.SubViewModel>();
 
         // Navigator
         builder.Services.AddSingleton<Navigator>(p =>
@@ -103,12 +101,7 @@ public partial class App : Application
             var navigator = new NavigatorConfig()
                 .UseAvaloniaNavigationProvider()
                 .UseServiceProvider(p)
-                .UseIdViewMapper(static m =>
-                {
-                    // TODO
-                    m.Register(ViewId.Menu, typeof(MenuView));
-                    m.Register(ViewId.Sub, typeof(SubView));
-                })
+                .UseIdViewMapper(static m => m.AutoRegister(Components.ViewSource()))
                 .ToNavigator();
             navigator.Navigated += (_, args) =>
             {
