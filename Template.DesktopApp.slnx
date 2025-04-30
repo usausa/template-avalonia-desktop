@@ -7,7 +7,7 @@
     <File Path="Directory.Build.props" />
     <File Path="Directory.Build.targets" />
     <File Path="Settings.XamlStyler" />
-    <File Path="Template.AvaloniaApp.sln" />
+    <File Path="Template.DesktopApp.sln" />
   </Folder>
-  <Project Path="Template.AvaloniaApp/Template.AvaloniaApp.csproj" />
+  <Project Path="Template.DesktopApp/Template.DesktopApp.csproj" />
 </Solution>
