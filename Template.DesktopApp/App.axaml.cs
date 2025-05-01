@@ -55,7 +55,7 @@ public partial class App : Application
 
             // Navigate to view
             var navigator = host.Services.GetRequiredService<Navigator>();
-            await navigator.ForwardAsync(ViewId.Menu);
+            await navigator.ForwardAsync(ViewId.Menu).ConfigureAwait(false);
         }
 
         base.OnFrameworkInitializationCompleted();
