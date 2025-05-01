@@ -10,8 +10,6 @@ using Microsoft.Extensions.Hosting;
 
 using Smart.Avalonia.Resolver;
 
-using Template.DesktopApp.Views;
-
 // ReSharper disable once PartialTypeWithSinglePart
 public partial class App : Application
 {
@@ -37,25 +35,15 @@ public partial class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Stop host hook
-            desktop.Exit += async (_, _) =>
-            {
-                await host.StopAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
-                host.Dispose();
-            };
+            // Exit hook
+            desktop.Exit += async (_, _) => await host.ExitApplicationAsync();
 
-            // MainWindow
+            // Debug window
             desktop.MainWindow = host.Services.GetRequiredService<MainWindow>();
 
-            // Start host
-            await host.StartAsync().ConfigureAwait(false);
+            // Start
+            await host.StartApplicationAsync();
 
-            // Startup log
-            host.LogStartupInformation();
-
-            // Navigate to view
-            var navigator = host.Services.GetRequiredService<Navigator>();
-            await navigator.ForwardAsync(ViewId.Menu).ConfigureAwait(false);
         }
 
         base.OnFrameworkInitializationCompleted();
