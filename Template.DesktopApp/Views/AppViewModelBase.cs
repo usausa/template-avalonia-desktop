@@ -1,9 +1,8 @@
 namespace Template.DesktopApp.Views;
 
-using CommunityToolkit.Mvvm.ComponentModel;
+using Smart.Avalonia.ViewModels;
 
-// TODO
-public abstract class AppViewModelBase : ObservableObject, INavigatorAware, INavigationEventSupport
+public abstract class AppViewModelBase : ViewModelBase, INavigatorAware, INavigationEventSupport
 {
     public INavigator Navigator { get; set; } = default!;
 

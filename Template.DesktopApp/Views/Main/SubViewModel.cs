@@ -1,7 +1,5 @@
 namespace Template.DesktopApp.Views.Main;
 
-using Smart.Avalonia.Input;
-
 public sealed class SubViewModel : AppViewModelBase
 {
     public string Message { get; set; }
@@ -11,7 +9,7 @@ public sealed class SubViewModel : AppViewModelBase
     public SubViewModel()
     {
         Message = "Hello from SubViewModel!";
-        NavigateCommand = new DelegateCommand(() =>
+        NavigateCommand = MakeDelegateCommand(() =>
         {
             Navigator.Forward(ViewId.Menu);
         });
