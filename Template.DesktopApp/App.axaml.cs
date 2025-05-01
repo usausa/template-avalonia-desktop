@@ -43,7 +43,6 @@ public partial class App : Application
 
             // Start
             await host.StartApplicationAsync();
-
         }
 
         base.OnFrameworkInitializationCompleted();
