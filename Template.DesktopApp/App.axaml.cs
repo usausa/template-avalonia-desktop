@@ -47,8 +47,6 @@ public partial class App : Application
             // MainWindow
             desktop.MainWindow = host.Services.GetRequiredService<MainWindow>();
 
-            base.OnFrameworkInitializationCompleted();
-
             // Start host
             await host.StartAsync().ConfigureAwait(false);
 
@@ -59,5 +57,7 @@ public partial class App : Application
             var navigator = host.Services.GetRequiredService<Navigator>();
             await navigator.ForwardAsync(ViewId.Menu);
         }
+
+        base.OnFrameworkInitializationCompleted();
     }
 }
