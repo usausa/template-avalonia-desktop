@@ -35,28 +35,29 @@ public partial class App : Application
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
 
-        var desktop = (IClassicDesktopStyleApplicationLifetime)ApplicationLifetime!;
-
-        // Stop host hook
-        desktop.Exit += async (_, _) =>
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            await host.StopAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
-            host.Dispose();
-        };
+            // Stop host hook
+            desktop.Exit += async (_, _) =>
+            {
+                await host.StopAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
+                host.Dispose();
+            };
 
-        // MainWindow
-        desktop.MainWindow = host.Services.GetRequiredService<MainWindow>();
+            // MainWindow
+            desktop.MainWindow = host.Services.GetRequiredService<MainWindow>();
 
-        base.OnFrameworkInitializationCompleted();
+            base.OnFrameworkInitializationCompleted();
 
-        // Start host
-        await host.StartAsync().ConfigureAwait(false);
+            // Start host
+            await host.StartAsync().ConfigureAwait(false);
 
-        // Startup log
-        host.LogStartupInformation();
+            // Startup log
+            host.LogStartupInformation();
 
-        // Navigate to view
-        var navigator = host.Services.GetRequiredService<Navigator>();
-        await navigator.ForwardAsync(ViewId.Menu);
+            // Navigate to view
+            var navigator = host.Services.GetRequiredService<Navigator>();
+            await navigator.ForwardAsync(ViewId.Menu);
+        }
     }
 }
