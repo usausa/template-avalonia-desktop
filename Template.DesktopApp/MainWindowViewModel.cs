@@ -1,8 +1,8 @@
 namespace Template.DesktopApp;
 
-using CommunityToolkit.Mvvm.ComponentModel;
+using Smart.Avalonia.ViewModels;
 
-public class MainWindowViewModel : ObservableObject
+public class MainWindowViewModel : ViewModelBase
 {
     public Navigator Navigator { get; set; }
 
