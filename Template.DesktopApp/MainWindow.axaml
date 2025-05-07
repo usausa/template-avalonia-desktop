@@ -2,18 +2,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sr="clr-namespace:Smart.Avalonia.Resolver;assembly=Smart.Avalonia.Extensions"
         xmlns:sn="clr-namespace:Smart.Navigation;assembly=Smart.Navigation.Avalonia"
-        xmlns:sr="clr-namespace:Smart.Avalonia.Resolver;assembly=Smart.Avalonia"
         xmlns:app="using:Template.DesktopApp"
         mc:Ignorable="d"
         x:Class="Template.DesktopApp.MainWindow"
         x:DataType="app:MainWindowViewModel"
         sr:DataContextResolver.Type="app:MainWindowViewModel"
-        Title="Template.DesktopApp"
-        Icon="/Assets/avalonia-logo.ico"
         Width="800" Height="600"
         d:DesignWidth="800" d:DesignHeight="600"
-        CanResize="True">
+        CanResize="True"
+        Title="Template.DesktopApp"
+        Icon="/Assets/avalonia-logo.ico">
 
     <Canvas sn:NavigationContainer.Navigator="{Binding Navigator}" />
 

@@ -2,7 +2,7 @@ namespace Template.DesktopApp.Views;
 
 using Smart.Avalonia.ViewModels;
 
-public abstract class AppViewModelBase : ViewModelBase, INavigatorAware, INavigationEventSupport
+public abstract class AppViewModelBase : AvaloniaViewModelBase, INavigatorAware, INavigationEventSupport
 {
     public INavigator Navigator { get; set; } = default!;
 
