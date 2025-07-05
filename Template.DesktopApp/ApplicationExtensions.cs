@@ -51,11 +51,8 @@ public static partial class ApplicationExtensions
             .UseArrayBinding()
             .UseAssignableBinding();
 
-        // Settings
-        config.BindConfig<Setting>(configuration.GetSection("Setting"));
-
-        // Window
-        config.BindSingleton<MainWindow>();
+        // Messenger
+        config.BindSingleton<IReactiveMessenger>(ReactiveMessenger.Default);
 
         // Navigation
         config.BindSingleton<Navigator>(resolver =>
@@ -75,6 +72,12 @@ public static partial class ApplicationExtensions
 
             return navigator;
         });
+
+        // Settings
+        config.BindConfig<Setting>(configuration.GetSection("Setting"));
+
+        // Window
+        config.BindSingleton<MainWindow>();
     }
 
     //--------------------------------------------------------------------------------
