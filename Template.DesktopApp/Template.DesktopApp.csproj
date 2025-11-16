@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net9.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <!--
-    <TargetFrameworks>net9.0;net9.0-windows;net9.0-macos</TargetFrameworks>
+    <TargetFrameworks>net10.0;net10.0-windows;net10.0-macos</TargetFrameworks>
     -->
     <OutputType>WinExe</OutputType>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
@@ -43,35 +43,37 @@
     </PackageReference>
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.8" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.8" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
     <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
-    <PackageReference Include="System.Interactive" Version="6.0.3" />
-    <PackageReference Include="System.Linq.Async" Version="6.0.3" />
     <PackageReference Include="System.Reactive" Version="6.1.0" />
-    <PackageReference Include="Usa.Smart.Avalonia" Version="2.10.2" />
-    <PackageReference Include="Usa.Smart.Avalonia.Extensions" Version="2.10.2" />
-    <PackageReference Include="Usa.Smart.Core" Version="2.4.6" />
-    <PackageReference Include="Usa.Smart.Mvvm" Version="1.8.0" />
+    <PackageReference Include="Usa.Smart.Avalonia" Version="2.11.0" />
+    <PackageReference Include="Usa.Smart.Avalonia.Extensions" Version="2.11.0" />
+    <PackageReference Include="Usa.Smart.Core" Version="2.5.0" />
+    <PackageReference Include="Usa.Smart.Mvvm" Version="1.9.0" />
     <PackageReference Include="Usa.Smart.Navigation" Version="2.16.0" />
     <PackageReference Include="Usa.Smart.Navigation.Avalonia" Version="2.16.0" />
     <PackageReference Include="Usa.Smart.Navigation.Extensions.DependencyInjection" Version="2.16.0" />
     <PackageReference Include="Usa.Smart.Navigation.Resolver" Version="2.16.0" />
-    <PackageReference Include="Usa.Smart.Reactive" Version="2.5.0" />
-    <PackageReference Include="Usa.Smart.Resolver" Version="2.6.2" />
-    <PackageReference Include="Usa.Smart.Resolver.Extensions.Configuration" Version="2.6.2" />
-    <PackageReference Include="Usa.Smart.Resolver.Extensions.DependencyInjection" Version="2.6.2" />
-    <PackageReference Include="Xaml.Behaviors.Avalonia" Version="11.3.6.6" />
+    <PackageReference Include="Usa.Smart.Reactive" Version="2.6.0" />
+    <PackageReference Include="Usa.Smart.Resolver" Version="2.7.0" />
+    <PackageReference Include="Usa.Smart.Resolver.Extensions.Configuration" Version="2.7.0" />
+    <PackageReference Include="Usa.Smart.Resolver.Extensions.DependencyInjection" Version="2.7.0" />
+    <PackageReference Include="Xaml.Behaviors.Avalonia" Version="11.3.8.2" />
   </ItemGroup>
 
   <ItemGroup>
     <AvaloniaResource Update="Assets\Styles\Styles.axaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Usa.Smart.Analyzers.JapaneseComment" Version="1.4.0" />
   </ItemGroup>
 
 </Project>
