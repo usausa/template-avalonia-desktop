@@ -10,10 +10,22 @@
              s:DataContextResolver.Type="local:SubViewModel"
              d:DesignWidth="800" d:DesignHeight="450">
 
-    <StackPanel>
+    <StackPanel Margin="16"
+                Spacing="16">
         <Label Content="{Binding Message}" />
-        <Button Command="{Binding NavigateCommand}"
-                Content="Navigate" />
+        <Label Content="{Binding Result}" />
+        <StackPanel Orientation="Horizontal"
+                    Spacing="8">
+            <Button Width="96"
+                    Command="{Binding ConfirmCommand}"
+                    Content="Confirm" />
+            <Button Width="96"
+                    Command="{Binding InputCommand}"
+                    Content="Input" />
+            <Button Width="96"
+                    Command="{Binding NavigateCommand}"
+                    Content="Back" />
+        </StackPanel>
     </StackPanel>
 
 </UserControl>

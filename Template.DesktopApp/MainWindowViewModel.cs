@@ -1,9 +1,10 @@
 namespace Template.DesktopApp;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
-public class MainWindowViewModel : ExtendViewModelBase
+public sealed class MainWindowViewModel : ExtendViewModelBase
 {
-    public Navigator Navigator { get; set; }
+    public Navigator Navigator { get; }
 
     public MainWindowViewModel(Navigator navigator)
     {

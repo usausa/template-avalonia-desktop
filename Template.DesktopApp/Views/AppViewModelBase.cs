@@ -5,15 +5,15 @@ public abstract class AppViewModelBase : ExtendViewModelBase, INavigatorAware, I
 {
     public INavigator Navigator { get; set; } = default!;
 
-    public void OnNavigatingFrom(INavigationContext context)
+    public virtual void OnNavigatingFrom(INavigationContext context)
     {
     }
 
-    public void OnNavigatingTo(INavigationContext context)
+    public virtual void OnNavigatingTo(INavigationContext context)
     {
     }
 
-    public void OnNavigatedTo(INavigationContext context)
+    public virtual void OnNavigatedTo(INavigationContext context)
     {
     }
 }

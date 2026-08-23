@@ -2,9 +2,11 @@ namespace Template.DesktopApp;
 
 using System.Runtime.InteropServices;
 
-using Microsoft.Extensions.Configuration;
+using BunnyTail.ServiceRegistration;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 using Serilog;
 
@@ -39,12 +41,19 @@ public static partial class ApplicationExtensions
     {
         builder.Services.AddAvaloniaServices();
 
-        builder.ConfigureContainer(new SmartServiceProviderFactory(), x => ConfigureContainer(builder.Configuration, x));
+        // Setting
+        builder.Services.AddOptions<Setting>().BindConfiguration("Setting").ValidateDataAnnotations().ValidateOnStart();
+        builder.Services.AddSingleton(static p => p.GetRequiredService<IOptions<Setting>>().Value);
+
+        // Service
+        builder.Services.AddServices();
+
+        builder.ConfigureContainer(new SmartServiceProviderFactory(), ConfigureContainer);
 
         return builder;
     }
 
-    private static void ConfigureContainer(ConfigurationManager configuration, ResolverConfig config)
+    private static void ConfigureContainer(ResolverConfig config)
     {
         config
             .UseAutoBinding()
@@ -53,6 +62,9 @@ public static partial class ApplicationExtensions
 
         // Messenger
         config.BindSingleton<IReactiveMessenger>(ReactiveMessenger.Default);
+
+        // Store
+        config.BindSingleton<UserSettingStore>();
 
         // Navigation
         config.BindSingleton<Navigator>(resolver =>
@@ -73,9 +85,6 @@ public static partial class ApplicationExtensions
             return navigator;
         });
 
-        // Settings
-        config.BindConfig<Setting>(configuration.GetSection("Setting"));
-
         // Window
         config.BindSingleton<MainWindow>();
     }
@@ -86,6 +95,13 @@ public static partial class ApplicationExtensions
 
     [ViewSource]
     public static partial IEnumerable<KeyValuePair<ViewId, Type>> ViewSource();
+
+    //--------------------------------------------------------------------------------
+    // Service
+    //--------------------------------------------------------------------------------
+
+    [ServiceRegistration(Lifetime.Singleton, "Service$")]
+    public static partial IServiceCollection AddServices(this IServiceCollection services);
 
     //--------------------------------------------------------------------------------
     // Startup

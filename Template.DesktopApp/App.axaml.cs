@@ -1,18 +1,25 @@
 namespace Template.DesktopApp;
 
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using Smart.Mvvm.Resolver;
 
+using Template.DesktopApp.Services;
+using Template.DesktopApp.Settings;
+
 // ReSharper disable once PartialTypeWithSinglePart
 public partial class App : Application
 {
     private IHost host = default!;
+
+    private ILogger<App> log = default!;
 
     public override void Initialize()
     {
@@ -26,6 +33,22 @@ public partial class App : Application
             .ConfigureComponents()
             .Build();
         ResolveProvider.Default.Provider = host.Services;
+
+        log = host.Services.GetRequiredService<ILogger<App>>();
+
+        // Exception hook
+        AppDomain.CurrentDomain.UnhandledException += (_, args) => log.ErrorUnknownException((Exception)args.ExceptionObject);
+        TaskScheduler.UnobservedTaskException += (_, args) =>
+        {
+            log.ErrorUnknownException(args.Exception);
+            args.SetObserved();
+        };
+        Dispatcher.UIThread.UnhandledException += (_, args) =>
+        {
+            log.ErrorUnknownException(args.Exception);
+            args.Handled = true;
+            NotifyException(args.Exception);
+        };
     }
 
     // ReSharper disable once AsyncVoidMethod
@@ -33,16 +56,74 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            // User setting
+            var store = host.Services.GetRequiredService<UserSettingStore>();
+            store.Load();
+
+            // Theme
+            host.Services.GetRequiredService<ThemeService>().Apply();
+
             // Exit hook
             desktop.Exit += async (_, _) => await host.ExitApplicationAsync();
 
-            // Debug window
-            desktop.MainWindow = host.Services.GetRequiredService<MainWindow>();
+            // Main window
+            var window = host.Services.GetRequiredService<MainWindow>();
+            RestoreWindowPlacement(window, store.Value);
+            window.Closing += (_, _) =>
+            {
+                SaveWindowPlacement(window, store.Value);
+                store.Save();
+            };
+            desktop.MainWindow = window;
 
             // Start
             await host.StartApplicationAsync();
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+
+    //--------------------------------------------------------------------------------
+    // Window placement
+    //--------------------------------------------------------------------------------
+
+    private static void RestoreWindowPlacement(Window window, UserSetting setting)
+    {
+        if (setting.MainWindowPlacement is not { } placement)
+        {
+            return;
+        }
+
+        window.Position = new PixelPoint(placement.X, placement.Y);
+        window.Width = placement.Width;
+        window.Height = placement.Height;
+        if (placement.Maximized)
+        {
+            window.WindowState = WindowState.Maximized;
+        }
+    }
+
+    private static void SaveWindowPlacement(Window window, UserSetting setting)
+    {
+        setting.MainWindowPlacement = new WindowPlacement
+        {
+            X = window.Position.X,
+            Y = window.Position.Y,
+            Width = window.Width,
+            Height = window.Height,
+            Maximized = window.WindowState == WindowState.Maximized
+        };
+    }
+
+    //--------------------------------------------------------------------------------
+    // Exception
+    //--------------------------------------------------------------------------------
+
+    private void NotifyException(Exception ex)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            _ = host.Services.GetRequiredService<IDialogService>().NotifyAsync(ex.Message).AsTask();
+        });
     }
 }

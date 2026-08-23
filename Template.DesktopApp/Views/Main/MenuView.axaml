@@ -10,10 +10,26 @@
              s:DataContextResolver.Type="local:MenuViewModel"
              d:DesignWidth="800" d:DesignHeight="450">
 
-    <StackPanel>
+    <StackPanel Margin="16"
+                Spacing="16">
         <Label Content="{Binding Message}" />
-        <Button Command="{Binding NavigateCommand}"
+        <Button Width="128"
+                Command="{Binding NavigateCommand}"
                 Content="Navigate" />
+        <StackPanel Orientation="Horizontal"
+                    Spacing="8">
+            <Label VerticalAlignment="Center"
+                   Content="Theme" />
+            <Button Command="{Binding ThemeCommand}"
+                    CommandParameter="Light"
+                    Content="Light" />
+            <Button Command="{Binding ThemeCommand}"
+                    CommandParameter="Dark"
+                    Content="Dark" />
+            <Button Command="{Binding ThemeCommand}"
+                    CommandParameter="System"
+                    Content="System" />
+        </StackPanel>
     </StackPanel>
 
 </UserControl>

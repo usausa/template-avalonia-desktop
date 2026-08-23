@@ -1,6 +1,7 @@
 namespace Template.DesktopApp.Settings;
 
-public class Setting
+public sealed class Setting
 {
+    [Required]
     public string Value { get; set; } = default!;
 }
