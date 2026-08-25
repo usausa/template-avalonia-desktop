@@ -28,12 +28,8 @@ public sealed class ThemeService
     private static void ApplyVariant(string theme)
     {
         var application = Avalonia.Application.Current;
-        if (application is null)
-        {
-            return;
-        }
 
-        application.RequestedThemeVariant = theme switch
+        application?.RequestedThemeVariant = theme switch
         {
             "Light" => ThemeVariant.Light,
             "Dark" => ThemeVariant.Dark,
