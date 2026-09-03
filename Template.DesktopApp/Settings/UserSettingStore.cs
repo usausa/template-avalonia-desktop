@@ -6,14 +6,9 @@ public sealed class UserSettingStore
 {
     private static readonly JsonSerializerOptions SerializerOptions = new() { WriteIndented = true };
 
-    private readonly string path;
+    private readonly string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Template.DesktopApp", "usersetting.json");
 
     public UserSetting Value { get; private set; } = new();
-
-    public UserSettingStore()
-    {
-        path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Template.DesktopApp", "usersetting.json");
-    }
 
     public void Load()
     {
