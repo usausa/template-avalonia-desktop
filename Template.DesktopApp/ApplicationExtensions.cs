@@ -2,7 +2,7 @@ namespace Template.DesktopApp;
 
 using System.Runtime.InteropServices;
 
-using BunnyTail.ServiceRegistration;
+using BunnyTail.DependencyInjection;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,13 +11,23 @@ using Microsoft.Extensions.Options;
 using Serilog;
 
 using Smart.Avalonia;
-using Smart.Resolver;
 
 using Template.DesktopApp.Settings;
 using Template.DesktopApp.Views;
 
 public static partial class ApplicationExtensions
 {
+    //--------------------------------------------------------------------------------
+    // Container
+    //--------------------------------------------------------------------------------
+
+    public static HostApplicationBuilder ConfigureContainer(this HostApplicationBuilder builder)
+    {
+        builder.ConfigureContainer(new GeneratedServiceProviderFactory(static options => options.TrackTransientDisposables = false));
+
+        return builder;
+    }
+
     //--------------------------------------------------------------------------------
     // Logging
     //--------------------------------------------------------------------------------
@@ -45,33 +55,18 @@ public static partial class ApplicationExtensions
         builder.Services.AddOptions<Setting>().BindConfiguration("Setting").ValidateDataAnnotations().ValidateOnStart();
         builder.Services.AddSingleton(static p => p.GetRequiredService<IOptions<Setting>>().Value);
 
-        // Service
-        builder.Services.AddServices();
-
-        builder.ConfigureContainer(new SmartServiceProviderFactory(), ConfigureContainer);
-
-        return builder;
-    }
-
-    private static void ConfigureContainer(ResolverConfig config)
-    {
-        config
-            .UseAutoBinding()
-            .UseArrayBinding()
-            .UseAssignableBinding();
-
         // Messenger
-        config.BindSingleton<IReactiveMessenger>(ReactiveMessenger.Default);
+        builder.Services.AddSingleton<IReactiveMessenger>(ReactiveMessenger.Default);
 
         // Store
-        config.BindSingleton<UserSettingStore>();
+        builder.Services.AddSingleton<UserSettingStore>();
 
         // Navigation
-        config.BindSingleton<Navigator>(resolver =>
+        builder.Services.AddSingleton<Navigator>(static provider =>
         {
             var navigator = new NavigatorConfig()
                 .UseAvaloniaNavigationProvider()
-                .UseServiceProvider(resolver)
+                .UseActivator(provider)
                 .UseIdViewMapper(static m => m.AutoRegister(ViewSource()))
                 .ToNavigator();
 #if DEBUG
@@ -84,24 +79,19 @@ public static partial class ApplicationExtensions
 
             return navigator;
         });
+        builder.Services.AddSingleton<INavigator>(static p => p.GetRequiredService<Navigator>());
+
+        // Service
+        builder.Services.AddServices();
 
         // Window
-        config.BindSingleton<MainWindow>();
+        builder.Services.AddSingleton<MainWindow>();
+        // View & ViewModel
+        builder.Services.AddViews();
+        builder.Services.AddViewModels();
+
+        return builder;
     }
-
-    //--------------------------------------------------------------------------------
-    // Navigation
-    //--------------------------------------------------------------------------------
-
-    [ViewSource]
-    public static partial IEnumerable<KeyValuePair<ViewId, Type>> ViewSource();
-
-    //--------------------------------------------------------------------------------
-    // Service
-    //--------------------------------------------------------------------------------
-
-    [ServiceRegistration(Lifetime.Singleton, "Service$")]
-    public static partial IServiceCollection AddServices(this IServiceCollection services);
 
     //--------------------------------------------------------------------------------
     // Startup
@@ -135,4 +125,28 @@ public static partial class ApplicationExtensions
         await host.StopAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
         host.Dispose();
     }
+
+    //--------------------------------------------------------------------------------
+    // Navigation
+    //--------------------------------------------------------------------------------
+
+    [ViewSource]
+    public static partial IEnumerable<KeyValuePair<ViewId, Type>> ViewSource();
+
+    //--------------------------------------------------------------------------------
+    // Service
+    //--------------------------------------------------------------------------------
+
+    [ComponentRegistration(Lifetime.Singleton, "Service$")]
+    public static partial IServiceCollection AddServices(this IServiceCollection services);
+
+    //--------------------------------------------------------------------------------
+    // View & ViewModel
+    //--------------------------------------------------------------------------------
+
+    [ComponentRegistration(Lifetime.Transient, "View$")]
+    public static partial IServiceCollection AddViews(this IServiceCollection services);
+
+    [ComponentRegistration(Lifetime.Transient, "ViewModel$")]
+    public static partial IServiceCollection AddViewModels(this IServiceCollection services);
 }
