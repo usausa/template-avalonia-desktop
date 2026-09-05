@@ -12,6 +12,7 @@ using Serilog;
 
 using Smart.Avalonia;
 
+using Template.DesktopApp.Services;
 using Template.DesktopApp.Settings;
 using Template.DesktopApp.Views;
 
@@ -62,27 +63,15 @@ public static partial class ApplicationExtensions
         builder.Services.AddSingleton<UserSettingStore>();
 
         // Navigation
-        builder.Services.AddSingleton<Navigator>(static provider =>
+        builder.Services.AddNavigator(static (_, config) =>
         {
-            var navigator = new NavigatorConfig()
-                .UseAvaloniaNavigationProvider()
-                .UseActivator(provider)
-                .UseIdViewMapper(static m => m.AutoRegister(ViewSource()))
-                .ToNavigator();
-#if DEBUG
-            navigator.Navigated += (_, args) =>
-            {
-                // for debug
-                System.Diagnostics.Debug.WriteLine($"Navigated: [{args.Context.FromId}]->[{args.Context.ToId}] : stacked=[{navigator.StackedCount}]");
-            };
-#endif
-
-            return navigator;
+            config.UseAvaloniaNavigationProvider();
+            config.UseIdViewMapper(static m => m.AutoRegister(ViewSource()));
         });
-        builder.Services.AddSingleton<INavigator>(static p => p.GetRequiredService<Navigator>());
 
         // Service
         builder.Services.AddServices();
+        builder.Services.AddSingleton<IDialogService, DialogService>();
 
         // Window
         builder.Services.AddSingleton<MainWindow>();
@@ -115,7 +104,7 @@ public static partial class ApplicationExtensions
         log.InfoStartupEnvironment(environment.EnvironmentName, environment.ContentRootPath);
 
         // Navigate to view
-        var navigator = host.Services.GetRequiredService<Navigator>();
+        var navigator = host.Services.GetRequiredService<INavigator>();
         await navigator.ForwardAsync(ViewId.Menu).ConfigureAwait(false);
     }
 

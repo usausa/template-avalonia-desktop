@@ -4,9 +4,9 @@ namespace Template.DesktopApp;
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
 public sealed class MainWindowViewModel : ExtendViewModelBase
 {
-    public Navigator Navigator { get; }
+    public INavigator Navigator { get; }
 
-    public MainWindowViewModel(Navigator navigator)
+    public MainWindowViewModel(INavigator navigator)
     {
         Navigator = navigator;
     }
