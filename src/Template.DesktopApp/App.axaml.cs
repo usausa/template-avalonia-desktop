@@ -93,9 +93,6 @@ public partial class App : Application
             // Theme
             host.Services.GetRequiredService<ThemeService>().Apply();
 
-            // Exit hook
-            desktop.Exit += async (_, _) => await host.ExitApplicationAsync();
-
             // Main window
             var window = host.Services.GetRequiredService<MainWindow>();
             RestoreWindowPlacement(window, store.Value);
@@ -103,6 +100,19 @@ public partial class App : Application
             {
                 SaveWindowPlacement(window, store.Value);
                 store.Save();
+            };
+
+            desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            window.Closed += async (_, _) =>
+            {
+                try
+                {
+                    await host.ExitApplicationAsync();
+                }
+                finally
+                {
+                    desktop.Shutdown();
+                }
             };
             desktop.MainWindow = window;
 
