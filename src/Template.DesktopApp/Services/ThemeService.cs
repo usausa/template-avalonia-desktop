@@ -18,11 +18,11 @@ public sealed class ThemeService
 
     public void Apply() => ApplyVariant(store.Value.Theme);
 
-    public void Change(string theme)
+    public async ValueTask ChangeAsync(string theme)
     {
         store.Value.Theme = theme;
-        store.Save();
         ApplyVariant(theme);
+        await store.SaveAsync().ConfigureAwait(true);
     }
 
     private static void ApplyVariant(string theme)

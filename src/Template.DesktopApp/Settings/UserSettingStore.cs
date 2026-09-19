@@ -29,12 +29,14 @@ public sealed class UserSettingStore
         }
     }
 
-    public void Save()
+    public async ValueTask SaveAsync()
     {
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-            File.WriteAllText(path, JsonSerializer.Serialize(Value, SerializerOptions));
+            var tempPath = path + ".tmp";
+            await File.WriteAllTextAsync(tempPath, JsonSerializer.Serialize(Value, SerializerOptions)).ConfigureAwait(false);
+            File.Move(tempPath, path, true);
         }
         catch (IOException)
         {

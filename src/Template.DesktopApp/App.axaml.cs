@@ -96,17 +96,14 @@ public partial class App : Application
             // Main window
             var window = host.Services.GetRequiredService<MainWindow>();
             RestoreWindowPlacement(window, store.Value);
-            window.Closing += (_, _) =>
-            {
-                SaveWindowPlacement(window, store.Value);
-                store.Save();
-            };
+            window.Closing += (_, _) => SaveWindowPlacement(window, store.Value);
 
             desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             window.Closed += async (_, _) =>
             {
                 try
                 {
+                    await store.SaveAsync();
                     await host.ExitApplicationAsync();
                 }
                 finally
@@ -134,9 +131,22 @@ public partial class App : Application
             return;
         }
 
-        window.Position = new PixelPoint(placement.X, placement.Y);
-        window.Width = placement.Width;
-        window.Height = placement.Height;
+        var position = new PixelPoint(placement.X, placement.Y);
+        var width = placement.Width;
+        var height = placement.Height;
+        if ((window.Screens.ScreenFromPoint(position) ?? window.Screens.Primary) is { } screen)
+        {
+            var area = screen.WorkingArea;
+            width = Math.Min(width, area.Width / screen.Scaling);
+            height = Math.Min(height, area.Height / screen.Scaling);
+            position = new PixelPoint(
+                Math.Clamp(position.X, area.X, Math.Max(area.X, area.Right - (int)(width * screen.Scaling))),
+                Math.Clamp(position.Y, area.Y, Math.Max(area.Y, area.Bottom - (int)(height * screen.Scaling))));
+        }
+
+        window.Position = position;
+        window.Width = width;
+        window.Height = height;
         if (placement.Maximized)
         {
             window.WindowState = WindowState.Maximized;

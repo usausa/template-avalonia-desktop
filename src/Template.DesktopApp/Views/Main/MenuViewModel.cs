@@ -17,6 +17,6 @@ public sealed partial class MenuViewModel : AppViewModelBase
     {
         Message = $"Hello from MenuViewModel! setting=[{setting.Value}]";
         NavigateCommand = MakeDelegateCommand(() => Navigator.Forward(ViewId.Sub));
-        ThemeCommand = MakeDelegateCommand<string>(themeService.Change);
+        ThemeCommand = MakeAsyncCommand<string>(x => themeService.ChangeAsync(x).AsTask());
     }
 }
