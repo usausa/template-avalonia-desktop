@@ -3,6 +3,7 @@ namespace Template.DesktopApp;
 using System;
 
 using Avalonia;
+using Avalonia.Media;
 
 public static class Program
 {
@@ -17,6 +18,7 @@ public static class Program
     public static AppBuilder BuildAvaloniaApp() =>
         AppBuilder.Configure<App>()
             .UsePlatformDetect()
+            .With(new FontManagerOptions { DefaultFamilyName = "fonts:Inter#Inter" })
             .WithInterFont()
             .LogToTrace();
 }
