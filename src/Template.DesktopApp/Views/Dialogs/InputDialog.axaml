@@ -3,8 +3,8 @@
         x:Class="Template.DesktopApp.Views.Dialogs.InputDialog"
         Width="384"
         CanResize="False"
-        Title="Input"
-        ShowInTaskbar="False" SizeToContent="Height" WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner" SizeToContent="Height" ShowInTaskbar="False"
+        Title="Input">
 
     <StackPanel Margin="16">
         <TextBox x:Name="ValueText" />
@@ -13,11 +13,13 @@
                     Spacing="8"
                     HorizontalAlignment="Right">
             <Button Width="96"
+                    IsDefault="True"
                     Content="OK"
-                    Click="OnOkClick" IsDefault="True" />
+                    Click="OnOkClick" />
             <Button Width="96"
+                    IsCancel="True"
                     Content="Cancel"
-                    Click="OnCancelClick" IsCancel="True" />
+                    Click="OnCancelClick" />
         </StackPanel>
     </StackPanel>
 

@@ -3,8 +3,8 @@
         x:Class="Template.DesktopApp.Views.Dialogs.ConfirmDialog"
         Width="384"
         CanResize="False"
-        Title="Confirm"
-        ShowInTaskbar="False" SizeToContent="Height" WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner" SizeToContent="Height" ShowInTaskbar="False"
+        Title="Confirm">
 
     <StackPanel Margin="16">
         <TextBlock x:Name="MessageText"
@@ -14,11 +14,13 @@
                     Spacing="8"
                     HorizontalAlignment="Right">
             <Button Width="96"
+                    IsDefault="True"
                     Content="Yes"
-                    Click="OnYesClick" IsDefault="True" />
+                    Click="OnYesClick" />
             <Button Width="96"
+                    IsCancel="True"
                     Content="No"
-                    Click="OnNoClick" IsCancel="True" />
+                    Click="OnNoClick" />
         </StackPanel>
     </StackPanel>
 

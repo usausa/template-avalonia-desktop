@@ -3,8 +3,8 @@
         x:Class="Template.DesktopApp.Views.Dialogs.NoticeDialog"
         Width="384"
         CanResize="False"
-        Title="Information"
-        ShowInTaskbar="False" SizeToContent="Height" WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner" SizeToContent="Height" ShowInTaskbar="False"
+        Title="Information">
 
     <StackPanel Margin="16">
         <TextBlock x:Name="MessageText"
@@ -12,8 +12,9 @@
         <Button Width="96"
                 Margin="0,16,0,0"
                 HorizontalAlignment="Right"
+                IsDefault="True"
                 Content="OK"
-                Click="OnOkClick" IsDefault="True" />
+                Click="OnOkClick" />
     </StackPanel>
 
 </Window>
