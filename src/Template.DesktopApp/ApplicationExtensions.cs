@@ -12,6 +12,9 @@ using Serilog;
 
 using Smart.Avalonia;
 
+#if DEBUG
+using Template.DesktopApp.Extender;
+#endif
 using Template.DesktopApp.Services;
 using Template.DesktopApp.Settings;
 using Template.DesktopApp.Views;
@@ -66,6 +69,9 @@ public static partial class ApplicationExtensions
         builder.Services.AddNavigator(static (_, config) =>
         {
             config.UseAvaloniaNavigationProvider();
+#if DEBUG
+            config.AddPlugin<LeakDetectionPlugin>();
+#endif
             config.UseIdViewMapper(static m => m.AutoRegister(ViewSource()));
         });
 

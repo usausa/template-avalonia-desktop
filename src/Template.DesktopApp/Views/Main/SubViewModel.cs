@@ -11,11 +11,11 @@ public sealed partial class SubViewModel : AppViewModelBase
     [ObservableProperty]
     public partial string Result { get; set; }
 
-    public ICommand ConfirmCommand { get; }
+    public IObserveCommand ConfirmCommand { get; }
 
-    public ICommand InputCommand { get; }
+    public IObserveCommand InputCommand { get; }
 
-    public ICommand NavigateCommand { get; }
+    public IObserveCommand NavigateCommand { get; }
 
     public SubViewModel(IDialogService dialogService)
     {
@@ -33,9 +33,6 @@ public sealed partial class SubViewModel : AppViewModelBase
                 Result = value;
             }
         });
-        NavigateCommand = MakeDelegateCommand(() =>
-        {
-            Navigator.Forward(ViewId.Menu);
-        });
+        NavigateCommand = MakeAsyncCommand(() => Navigator.ForwardAsync(ViewId.Menu));
     }
 }

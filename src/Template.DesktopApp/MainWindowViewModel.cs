@@ -1,7 +1,5 @@
 namespace Template.DesktopApp;
 
-using Smart.Mvvm.ViewModels;
-
 // ReSharper disable once ClassNeverInstantiated.Global
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
 public sealed class MainWindowViewModel : ExtendViewModelBase

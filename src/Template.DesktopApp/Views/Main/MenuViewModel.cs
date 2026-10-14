@@ -9,14 +9,14 @@ public sealed partial class MenuViewModel : AppViewModelBase
     [ObservableProperty]
     public partial string Message { get; set; }
 
-    public ICommand NavigateCommand { get; }
+    public IObserveCommand ForwardCommand { get; }
 
-    public ICommand ThemeCommand { get; }
+    public IObserveCommand ThemeCommand { get; }
 
     public MenuViewModel(Setting setting, ThemeService themeService)
     {
         Message = $"Hello from MenuViewModel! setting=[{setting.Value}]";
-        NavigateCommand = MakeDelegateCommand(() => Navigator.Forward(ViewId.Sub));
+        ForwardCommand = MakeAsyncCommand<ViewId>(x => Navigator.ForwardAsync(x));
         ThemeCommand = MakeAsyncCommand<string>(x => themeService.ChangeAsync(x).AsTask());
     }
 }

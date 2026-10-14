@@ -2,11 +2,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Template.DesktopApp.Views.Dialogs.NoticeDialog"
         Width="384"
-        SizeToContent="Height"
-        WindowStartupLocation="CenterOwner"
         CanResize="False"
-        ShowInTaskbar="False"
-        Title="Information">
+        Title="Information"
+        ShowInTaskbar="False" SizeToContent="Height" WindowStartupLocation="CenterOwner">
 
     <StackPanel Margin="16">
         <TextBlock x:Name="MessageText"
@@ -14,9 +12,8 @@
         <Button Width="96"
                 Margin="0,16,0,0"
                 HorizontalAlignment="Right"
-                Click="OnOkClick"
                 Content="OK"
-                IsDefault="True" />
+                Click="OnOkClick" IsDefault="True" />
     </StackPanel>
 
 </Window>

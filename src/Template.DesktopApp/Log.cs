@@ -22,6 +22,14 @@ internal static partial class Log
     [LoggerMessage(Level = LogLevel.Information, Message = "Environment: environment=[{environment}], contentRoot=[{contentRoot}]")]
     public static partial void InfoStartupEnvironment(this ILogger logger, string environment, string contentRoot);
 
+    // Navigation
+
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Leak suspected. target=[{target}]")]
+    public static partial void WarnLeakSuspected(this ILogger logger, string target);
+
+    [LoggerMessage(Level = LogLevel.Debug, Message = "Closed object collected. target=[{target}]")]
+    public static partial void DebugClosedObjectCollected(this ILogger logger, string target);
+
     // Error
 
     [LoggerMessage(Level = LogLevel.Error, Message = "Unknown exception.")]
