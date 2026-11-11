@@ -1,6 +1,6 @@
 # Template project for Avalonia desktop
 
-Avalonia desktop application template (Windows / macOS / Linux).
+[Template](https://usausa.github.io/template/) project for Avalonia desktop.
 
 # ✅ Implement
 
