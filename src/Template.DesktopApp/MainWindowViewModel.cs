@@ -4,7 +4,7 @@ namespace Template.DesktopApp;
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
 public sealed class MainWindowViewModel : ExtendViewModelBase
 {
-    private IDisposable? navigatingBusy;
+    private BusyStateScope? navigatingBusy;
 
     public INavigator Navigator { get; }
 

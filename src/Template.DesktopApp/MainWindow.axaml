@@ -15,6 +15,6 @@
         Title="Template.DesktopApp"
         Icon="/Assets/avalonia-logo.ico">
 
-    <Canvas navigation:NavigationContainer.Navigator="{Binding Navigator}" />
+    <Grid navigation:NavigationContainer.Navigator="{Binding Navigator}" />
 
 </Window>
