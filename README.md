@@ -2,11 +2,29 @@
 
 [Template](https://usausa.github.io/template/) project for Avalonia desktop.
 
+# 📸 Image
+
+<p>
+<img width="32%" src="Document/Images/Home.png" />
+<img width="32%" src="Document/Images/Tasks.png" />
+<img width="32%" src="Document/Images/NewTask.png" />
+
+<img width="32%" src="Document/Images/HomeNarrow.png" />
+<img width="32%" src="Document/Images/TasksNarrow.png" />
+<img width="32%" src="Document/Images/TasksCompact.png" />
+
+<img width="32%" src="Document/Images/Settings.png" />
+<img width="32%" src="Document/Images/HomeDark.png" />
+<img width="32%" src="Document/Images/TasksDark.png" />
+</p>
+
 # ✅ Implement
 
 | Category | Feature |
 | --- | --- |
-| Window | Fluent theme (Light / Dark / System) / Window placement / Inter font / Compiled bindings |
+| Window | Fluent2 theme (Light / Dark / System) / Custom title bar / Window placement / Inter font / Fluent UI System Icons / Compiled bindings |
+| Shell | Side navigation (groups, collapsible pane) / Page search / Responsive layout (container queries) |
+| Example | Dashboard / Table with detail editing (TableView) / Form with validation |
 | Basic | MVVM (source generator) / Navigation / Dialog (confirm, input, notice) / Setting / User setting (JSON) / Logging (Serilog) / DI (source generator) / Leak detection |
 | App | Generic Host / Unhandled exception handling / Startup log / DevTools (Debug) |
 
