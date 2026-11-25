@@ -2,6 +2,11 @@ namespace Template.DesktopApp.Views;
 
 public enum ViewId
 {
-    Menu,
-    Sub
+    Home,
+    TaskList,
+    TaskNew,
+    Dialogs,
+    Navigation,
+    NavigationSub,
+    Settings
 }

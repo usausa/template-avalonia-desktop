@@ -1,0 +1,88 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="http://smart/avalonia"
+             xmlns:module="clr-namespace:Template.DesktopApp.Views.Settings"
+             mc:Ignorable="d"
+             x:Class="Template.DesktopApp.Views.Settings.SettingsView"
+             x:DataType="module:SettingsViewModel"
+             s:DataContextResolver.Type="module:SettingsViewModel"
+             d:DesignWidth="1040" d:DesignHeight="756">
+
+    <!-- Content -->
+    <ScrollViewer>
+        <StackPanel Classes="page">
+
+            <!-- Header -->
+            <StackPanel Classes="page-header">
+                <TextBlock Classes="page-title"
+                           Text="Settings" />
+                <TextBlock Classes="page-description"
+                           Text="Application settings and information." />
+            </StackPanel>
+
+            <!-- Appearance -->
+            <StackPanel Classes="section">
+                <TextBlock Classes="section-title"
+                           Text="Appearance" />
+                <Border Classes="card">
+                    <Grid ColumnDefinitions="Auto,*,Auto"
+                          ColumnSpacing="16">
+                        <PathIcon Grid.Column="0"
+                                  Classes="card-icon"
+                                  Data="{StaticResource ThemeIcon}" />
+                        <StackPanel Grid.Column="1"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="App theme" />
+                            <TextBlock Classes="caption"
+                                       Text="Select which app theme to display" />
+                        </StackPanel>
+                        <ComboBox Grid.Column="2"
+                                  Width="160"
+                                  VerticalAlignment="Center"
+                                  ItemsSource="{Binding Themes}"
+                                  SelectedItem="{Binding Theme}" />
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <!-- About -->
+            <StackPanel Classes="section">
+                <TextBlock Classes="section-title"
+                           Text="About" />
+                <Border Classes="card">
+                    <Grid ColumnDefinitions="Auto,Auto,*"
+                          ColumnSpacing="16">
+                        <PathIcon Grid.Column="0"
+                                  Classes="card-icon"
+                                  VerticalAlignment="Top"
+                                  Data="{StaticResource InfoIcon}" />
+                        <Grid Grid.Column="1"
+                              RowDefinitions="Auto,Auto,Auto"
+                              ColumnDefinitions="Auto,*"
+                              RowSpacing="8" ColumnSpacing="24">
+                            <TextBlock Grid.Row="0" Grid.Column="0"
+                                       Classes="property-name"
+                                       Text="Version" />
+                            <TextBlock Grid.Row="0" Grid.Column="1"
+                                       Text="{Binding Version}" />
+                            <TextBlock Grid.Row="1" Grid.Column="0"
+                                       Classes="property-name"
+                                       Text=".NET" />
+                            <TextBlock Grid.Row="1" Grid.Column="1"
+                                       Text="{Binding Framework}" />
+                            <TextBlock Grid.Row="2" Grid.Column="0"
+                                       Classes="property-name"
+                                       Text="OS" />
+                            <TextBlock Grid.Row="2" Grid.Column="1"
+                                       Text="{Binding OperatingSystem}" />
+                        </Grid>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

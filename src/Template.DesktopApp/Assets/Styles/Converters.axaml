@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="http://smart/avalonia"
+                    xmlns:converters="using:Template.DesktopApp.Converters"
+                    xmlns:models="using:Template.DesktopApp.Models">
+
+    <converters:ResourceKeyConverter x:Key="ResourceKeyConverter" />
+    <converters:InitialConverter x:Key="InitialConverter" />
+    <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+
+    <s:MapToTextConverter x:Key="TaskStateTextConverter">
+        <s:MapToTextConverter.Entries>
+            <s:MapToTextEntry Key="{x:Static models:TaskState.Backlog}"
+                              Value="Backlog" />
+            <s:MapToTextEntry Key="{x:Static models:TaskState.InProgress}"
+                              Value="In progress" />
+            <s:MapToTextEntry Key="{x:Static models:TaskState.InReview}"
+                              Value="In review" />
+            <s:MapToTextEntry Key="{x:Static models:TaskState.Done}"
+                              Value="Done" />
+        </s:MapToTextConverter.Entries>
+    </s:MapToTextConverter>
+
+    <s:MapToTextConverter x:Key="TaskSortTextConverter">
+        <s:MapToTextConverter.Entries>
+            <s:MapToTextEntry Key="{x:Static models:TaskSort.DueDate}"
+                              Value="Sort by due date" />
+            <s:MapToTextEntry Key="{x:Static models:TaskSort.Name}"
+                              Value="Sort by name" />
+            <s:MapToTextEntry Key="{x:Static models:TaskSort.Progress}"
+                              Value="Sort by progress" />
+        </s:MapToTextConverter.Entries>
+    </s:MapToTextConverter>
+
+</ResourceDictionary>

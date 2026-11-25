@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="http://smart/avalonia"
+             xmlns:module="clr-namespace:Template.DesktopApp.Views.Samples"
+             mc:Ignorable="d"
+             x:Class="Template.DesktopApp.Views.Samples.DialogsView"
+             x:DataType="module:DialogsViewModel"
+             s:DataContextResolver.Type="module:DialogsViewModel"
+             d:DesignWidth="1040" d:DesignHeight="756">
+
+    <!-- Content -->
+    <ScrollViewer>
+        <StackPanel Classes="page">
+
+            <!-- Header -->
+            <StackPanel Classes="page-header">
+                <TextBlock Classes="page-title"
+                           Text="Dialogs" />
+                <TextBlock Classes="page-description"
+                           Text="Confirm, input and notice dialogs." />
+            </StackPanel>
+
+            <!-- Dialog -->
+            <Border Classes="card">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="8">
+                        <Button Width="96"
+                                Command="{Binding ConfirmCommand}"
+                                Content="Confirm" />
+                        <Button Width="96"
+                                Command="{Binding InputCommand}"
+                                Content="Input" />
+                        <Button Width="96"
+                                Command="{Binding NoticeCommand}"
+                                Content="Notice" />
+                    </StackPanel>
+                    <TextBlock Classes="caption"
+                               IsVisible="{Binding Result, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                               Text="{Binding Result}" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

@@ -1,13 +1,10 @@
-namespace Template.DesktopApp.Views.Main;
+namespace Template.DesktopApp.Views.Samples;
 
 using Template.DesktopApp.Services;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public sealed partial class SubViewModel : AppViewModelBase
+public sealed partial class DialogsViewModel : AppViewModelBase
 {
-    [ObservableProperty]
-    public partial string Message { get; set; }
-
     [ObservableProperty]
     public partial string Result { get; set; }
 
@@ -15,11 +12,10 @@ public sealed partial class SubViewModel : AppViewModelBase
 
     public IObserveCommand InputCommand { get; }
 
-    public IObserveCommand NavigateCommand { get; }
+    public IObserveCommand NoticeCommand { get; }
 
-    public SubViewModel(IDialogService dialogService)
+    public DialogsViewModel(IDialogService dialogService)
     {
-        Message = "Hello from SubViewModel!";
         Result = string.Empty;
         ConfirmCommand = MakeAsyncCommand(async () =>
         {
@@ -33,6 +29,10 @@ public sealed partial class SubViewModel : AppViewModelBase
                 Result = value;
             }
         });
-        NavigateCommand = MakeAsyncCommand(() => Navigator.ForwardAsync(ViewId.Menu));
+        NoticeCommand = MakeAsyncCommand(async () =>
+        {
+            await dialogService.NotifyAsync("Hello from DialogsViewModel!");
+            Result = "Noticed";
+        });
     }
 }

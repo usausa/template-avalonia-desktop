@@ -5,16 +5,108 @@
         xmlns:s="http://smart/avalonia"
         xmlns:navigation="http://smart/navigation"
         xmlns:application="using:Template.DesktopApp"
+        xmlns:shell="using:Template.DesktopApp.Shell"
         mc:Ignorable="d"
         x:Class="Template.DesktopApp.MainWindow"
         x:DataType="application:MainWindowViewModel"
         s:DataContextResolver.Type="application:MainWindowViewModel"
-        Width="800" Height="600"
-        d:DesignWidth="800" d:DesignHeight="600"
+        Width="1280" Height="800" MinWidth="960" MinHeight="600"
+        d:DesignWidth="1280" d:DesignHeight="800"
         CanResize="True"
         Title="Template.DesktopApp"
-        Icon="/Assets/avalonia-logo.ico">
+        Icon="/Assets/avalonia-logo.ico"
+        ExtendClientAreaTitleBarHeightHint="44" ExtendClientAreaToDecorationsHint="True" WindowDrawnDecorations.TitleBarDecorations="MinimizeButton, MaximizeButton, CloseButton">
 
-    <Grid navigation:NavigationContainer.Navigator="{Binding Navigator}" />
+    <Window.DataTemplates>
+        <TreeDataTemplate ItemsSource="{Binding Items}"
+                          DataType="shell:NavigationGroup">
+            <StackPanel Orientation="Horizontal"
+                        Spacing="12">
+                <PathIcon Classes="nav-icon"
+                          Data="{Binding Icon, Converter={StaticResource ResourceKeyConverter}}" />
+                <TextBlock Classes="nav-title"
+                           VerticalAlignment="Center"
+                           Text="{Binding Title}" />
+            </StackPanel>
+        </TreeDataTemplate>
+        <DataTemplate DataType="shell:NavigationItem">
+            <StackPanel Orientation="Horizontal"
+                        Spacing="12">
+                <PathIcon Classes="nav-icon"
+                          Data="{Binding Icon, Converter={StaticResource ResourceKeyConverter}}" />
+                <TextBlock Classes="nav-title"
+                           VerticalAlignment="Center"
+                           Text="{Binding Title}" />
+            </StackPanel>
+        </DataTemplate>
+    </Window.DataTemplates>
+
+    <Grid Classes="shell"
+          Classes.compact="{Binding !IsPaneOpen}"
+          RowDefinitions="44,*"
+          ColumnDefinitions="Auto,*">
+
+        <!-- Title bar -->
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+              ColumnDefinitions="Auto,*,144"
+              Background="Transparent"
+              WindowDecorationProperties.ElementRole="TitleBar">
+            <StackPanel Grid.Column="0"
+                        Orientation="Horizontal"
+                        Margin="4,0,0,0"
+                        Spacing="8"
+                        VerticalAlignment="Center">
+                <Button Command="{Binding TogglePaneCommand}"
+                        AutomationProperties.Name="Navigation"
+                        Theme="{StaticResource SubtleButton}"
+                        WindowDecorationProperties.ElementRole="User">
+                    <PathIcon Classes="nav-icon"
+                              Data="{StaticResource PaneIcon}" />
+                </Button>
+                <Image Width="16" Height="16"
+                       Source="/Assets/avalonia-logo.ico" />
+                <TextBlock Classes="title-bar-title"
+                           Text="Template.DesktopApp" />
+            </StackPanel>
+            <AutoCompleteBox Grid.Column="1"
+                             Width="400"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                             ItemsSource="{Binding Menu.AllItems}"
+                             SelectedItem="{Binding SearchItem}"
+                             Text="{Binding SearchText}"
+                             PlaceholderText="Search pages"
+                             AutomationProperties.Name="Search" FilterMode="Contains"
+                             ValueMemberBinding="{Binding Title}"
+                             WindowDecorationProperties.ElementRole="User">
+                <AutoCompleteBox.InnerLeftContent>
+                    <PathIcon Classes="nav-icon"
+                              Margin="10,0,0,0"
+                              Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                              Data="{StaticResource SearchIcon}" />
+                </AutoCompleteBox.InnerLeftContent>
+            </AutoCompleteBox>
+        </Grid>
+
+        <!-- Side bar -->
+        <DockPanel Grid.Row="1" Grid.Column="0"
+                   Classes="side-bar">
+            <TreeView DockPanel.Dock="Bottom"
+                      Classes="nav"
+                      Margin="0,0,0,8"
+                      ItemsSource="{Binding Menu.FooterItems}"
+                      SelectedItem="{Binding SelectedFooterNode}" />
+            <TreeView Classes="nav"
+                      ItemsSource="{Binding Menu.Items}"
+                      SelectedItem="{Binding SelectedNode}" />
+        </DockPanel>
+
+        <!-- Content -->
+        <Border Grid.Row="1" Grid.Column="1"
+                Classes="content"
+                ClipToBounds="True">
+            <Grid navigation:NavigationContainer.Navigator="{Binding Navigator}" />
+        </Border>
+
+    </Grid>
 
 </Window>

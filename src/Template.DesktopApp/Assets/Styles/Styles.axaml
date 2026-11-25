@@ -1,2 +1,349 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" />
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shell="using:Template.DesktopApp.Shell">
+
+    <Styles.Resources>
+        <ControlTheme x:Key="NavigationGroupToggle"
+                      TargetType="ToggleButton">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}" />
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+        <ControlTheme x:Key="SubtleButton"
+                      TargetType="Button">
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Padding="{TemplateBinding Padding}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Content="{TemplateBinding Content}"
+                                      Background="{TemplateBinding Background}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+            </Style>
+            <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
+            </Style>
+        </ControlTheme>
+    </Styles.Resources>
+
+    <!-- Page -->
+
+    <Style Selector="StackPanel.page">
+        <Setter Property="Margin" Value="24" />
+        <Setter Property="Spacing" Value="16" />
+    </Style>
+
+    <Style Selector="StackPanel.page-header">
+        <Setter Property="Spacing" Value="4" />
+    </Style>
+
+    <Style Selector="TextBlock.page-title">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style Selector="TextBlock.page-description">
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+
+    <Style Selector="StackPanel.section">
+        <Setter Property="Spacing" Value="8" />
+    </Style>
+
+    <Style Selector="TextBlock.section-title">
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style Selector="TextBlock.caption">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+
+    <!-- Card -->
+
+    <Style Selector="Border.card">
+        <Setter Property="Padding" Value="16" />
+        <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{DynamicResource OverlayCornerRadius}" />
+    </Style>
+
+    <Style Selector="PathIcon.card-icon">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="PathIcon.button-icon">
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+    </Style>
+
+    <!-- Metric -->
+
+    <Style Selector="TextBlock.metric">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style Selector="TextBlock.positive">
+        <Setter Property="Foreground" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+    </Style>
+
+    <Style Selector="TextBlock.negative">
+        <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+    </Style>
+
+    <!-- Badge -->
+
+    <Style Selector="Border.badge">
+        <Setter Property="Padding" Value="8,2" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Background" Value="{DynamicResource SystemFillColorSolidNeutralBackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="10" />
+    </Style>
+
+    <Style Selector="Border.badge > TextBlock">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+
+    <Style Selector="Border.badge.success">
+        <Setter Property="Background" Value="{DynamicResource SystemFillColorSuccessBackgroundBrush}" />
+    </Style>
+
+    <Style Selector="Border.badge.success > TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+    </Style>
+
+    <Style Selector="Border.badge.caution">
+        <Setter Property="Background" Value="{DynamicResource SystemFillColorCautionBackgroundBrush}" />
+    </Style>
+
+    <Style Selector="Border.badge.caution > TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCautionBrush}" />
+    </Style>
+
+    <Style Selector="Border.badge.attention">
+        <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentLowBrush}" />
+    </Style>
+
+    <Style Selector="Border.badge.attention > TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+    </Style>
+
+    <!-- Avatar -->
+
+    <Style Selector="Border.avatar">
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="CornerRadius" Value="12" />
+    </Style>
+
+    <Style Selector="Border.avatar > TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <!-- Property -->
+
+    <Style Selector="TextBlock.property-name">
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+
+    <!-- Field -->
+
+    <Style Selector="TextBlock.field-label">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="TextBlock.field-error">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+    </Style>
+
+    <Style Selector="TextBox.error /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="{DynamicResource SystemFillColorCriticalBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,0,2" />
+    </Style>
+
+    <Style Selector="ComboBox.error /template/ Border#Background">
+        <Setter Property="Background" Value="{DynamicResource SystemFillColorCriticalBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,0,2" />
+    </Style>
+
+    <Style Selector="CalendarDatePicker.error /template/ Border#Background">
+        <Setter Property="Background" Value="{DynamicResource SystemFillColorCriticalBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,0,2" />
+    </Style>
+
+    <!-- Shell -->
+
+    <Style Selector="TextBlock.title-bar-title">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <Style Selector="Border.content">
+        <Setter Property="Background" Value="{DynamicResource LayerFillColorDefaultBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1,1,0,0" />
+        <Setter Property="CornerRadius" Value="8,0,0,0" />
+    </Style>
+
+    <Style Selector="PathIcon.nav-icon">
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+    </Style>
+
+    <Style Selector="TreeView.nav TreeViewItem"
+           x:DataType="shell:NavigationNode">
+        <Setter Property="AutomationProperties.Name" Value="{Binding Title}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel>
+                    <Border Name="PART_LayoutRoot"
+                            MinHeight="36"
+                            Margin="4,2"
+                            Focusable="True"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            TemplatedControl.IsTemplateFocusTarget="True">
+                        <Panel>
+                            <Grid Name="PART_Header"
+                                  ColumnDefinitions="*,Auto">
+                                <ContentPresenter Name="PART_HeaderPresenter"
+                                                  Grid.Column="0"
+                                                  Margin="12,0,0,0"
+                                                  VerticalAlignment="Center"
+                                                  Focusable="False"
+                                                  Content="{TemplateBinding Header}"
+                                                  Background="Transparent"
+                                                  ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                                <Path Name="PART_Chevron"
+                                      Grid.Column="1"
+                                      Width="8" Height="8"
+                                      Margin="12,0"
+                                      VerticalAlignment="Center"
+                                      IsVisible="False"
+                                      Data="{DynamicResource ChevronDownPathData}"
+                                      Stretch="Uniform"
+                                      Fill="{TemplateBinding Foreground}" />
+                            </Grid>
+                            <ToggleButton Name="PART_GroupToggle"
+                                          IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                                          IsVisible="False"
+                                          Focusable="False"
+                                          Theme="{StaticResource NavigationGroupToggle}" />
+                            <Rectangle Name="SelectionIndicator"
+                                       Width="3" Height="16"
+                                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       IsVisible="False"
+                                       Fill="{DynamicResource TreeViewItemSelectionIndicatorFill}"
+                                       RenderTransform="scaleY(0)"
+                                       RadiusX="1.5" RadiusY="1.5"
+                                       UseLayoutRounding="False">
+                                <Rectangle.Transitions>
+                                    <Transitions>
+                                        <TransformOperationsTransition Property="RenderTransform"
+                                                                       Duration="0:0:0.167">
+                                            <TransformOperationsTransition.Easing>
+                                                <SplineEasing X1="0" X2="0" Y1="0" Y2="1" />
+                                            </TransformOperationsTransition.Easing>
+                                        </TransformOperationsTransition>
+                                    </Transitions>
+                                </Rectangle.Transitions>
+                            </Rectangle>
+                        </Panel>
+                    </Border>
+                    <ItemsPresenter Name="PART_ItemsPresenter"
+                                    IsVisible="{TemplateBinding IsExpanded}"
+                                    ItemsPanel="{TemplateBinding ItemsPanel}" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="TreeView.nav TreeViewItem[Level=1] /template/ Grid#PART_Header">
+        <Setter Property="Margin" Value="28,0,0,0" />
+    </Style>
+
+    <Style Selector="TreeView.nav TreeViewItem:not(:empty) /template/ Path#PART_Chevron">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <Style Selector="TreeView.nav TreeViewItem:not(:empty) /template/ ToggleButton#PART_GroupToggle">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <Style Selector="TreeView.nav TreeViewItem[IsExpanded=True] /template/ Path#PART_Chevron">
+        <Setter Property="Data" Value="{DynamicResource ChevronUpPathData}" />
+    </Style>
+
+    <Style Selector="TreeView.nav TreeViewItem:not(:empty)"
+           x:DataType="shell:NavigationGroup">
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+    </Style>
+
+    <Style Selector="Grid.shell DockPanel.side-bar">
+        <Setter Property="Width" Value="240" />
+    </Style>
+
+    <Style Selector="Grid.shell.compact DockPanel.side-bar">
+        <Setter Property="Width" Value="48" />
+    </Style>
+
+    <Style Selector="Grid.shell.compact TreeView.nav TreeViewItem"
+           x:DataType="shell:NavigationNode">
+        <Setter Property="ToolTip.Tip" Value="{Binding Title}" />
+    </Style>
+
+    <Style Selector="Grid.shell.compact TreeView.nav TextBlock.nav-title">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <Style Selector="Grid.shell.compact TreeView.nav TreeViewItem /template/ Path#PART_Chevron">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <Style Selector="Grid.shell.compact TreeView.nav TreeViewItem[Level=1] /template/ Grid#PART_Header">
+        <Setter Property="Margin" Value="0" />
+    </Style>
+
+</Styles>

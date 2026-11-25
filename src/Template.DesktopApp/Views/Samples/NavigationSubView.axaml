@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="http://smart/avalonia"
+             xmlns:markup="clr-namespace:Template.DesktopApp.Markup"
+             xmlns:module="clr-namespace:Template.DesktopApp.Views.Samples"
+             mc:Ignorable="d"
+             x:Class="Template.DesktopApp.Views.Samples.NavigationSubView"
+             x:DataType="module:NavigationSubViewModel"
+             s:DataContextResolver.Type="module:NavigationSubViewModel"
+             d:DesignWidth="1040" d:DesignHeight="756">
+
+    <!-- Content -->
+    <ScrollViewer>
+        <StackPanel Classes="page">
+
+            <!-- Header -->
+            <StackPanel Classes="page-header">
+                <TextBlock Classes="page-title"
+                           Text="Sub page" />
+                <TextBlock Classes="page-description"
+                           Text="This page is not in the menu." />
+            </StackPanel>
+
+            <!-- Back -->
+            <Border Classes="card">
+                <Button Width="128"
+                        Command="{Binding ForwardCommand}"
+                        CommandParameter="{markup:ViewId Navigation}"
+                        Content="Back" />
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

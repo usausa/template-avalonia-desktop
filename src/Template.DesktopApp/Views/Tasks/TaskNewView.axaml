@@ -1,0 +1,133 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="http://smart/avalonia"
+             xmlns:models="using:Template.DesktopApp.Models"
+             xmlns:module="clr-namespace:Template.DesktopApp.Views.Tasks"
+             mc:Ignorable="d"
+             x:Class="Template.DesktopApp.Views.Tasks.TaskNewView"
+             x:DataType="module:TaskNewViewModel"
+             s:DataContextResolver.Type="module:TaskNewViewModel"
+             d:DesignWidth="1040" d:DesignHeight="756">
+
+    <!-- Content -->
+    <ScrollViewer>
+        <StackPanel Classes="page">
+
+            <!-- Header -->
+            <StackPanel Classes="page-header">
+                <TextBlock Classes="caption"
+                           Text="Tasks" />
+                <TextBlock Classes="page-title"
+                           Text="New task" />
+            </StackPanel>
+
+            <!-- Form -->
+            <Border Classes="card">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                      ColumnDefinitions="Auto,320,*"
+                      RowSpacing="12" ColumnSpacing="16">
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Classes="field-label"
+                               Text="Name" />
+                    <TextBox Grid.Row="0" Grid.Column="1"
+                             Classes.error="{Binding Form.Errors[Name], Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                             Text="{Binding Form.Name}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2"
+                               Classes="field-error"
+                               Text="{Binding Form.Errors[Name]}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0"
+                               Classes="field-label"
+                               Text="Assignee" />
+                    <ComboBox Grid.Row="1" Grid.Column="1"
+                              Classes.error="{Binding Form.Errors[Assignee], Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                              HorizontalAlignment="Stretch"
+                              ItemsSource="{Binding Members}"
+                              SelectedItem="{Binding Form.Assignee}"
+                              DisplayMemberBinding="{Binding Name, x:DataType=models:Member}" />
+                    <TextBlock Grid.Row="1" Grid.Column="2"
+                               Classes="field-error"
+                               Text="{Binding Form.Errors[Assignee]}" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0"
+                               Classes="field-label"
+                               Text="Status" />
+                    <ComboBox Grid.Row="2" Grid.Column="1"
+                              HorizontalAlignment="Stretch"
+                              ItemsSource="{s:EnumValues {x:Type models:TaskState}}"
+                              SelectedItem="{Binding Form.State}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:TaskState">
+                                <TextBlock Text="{Binding Converter={StaticResource TaskStateTextConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0"
+                               Classes="field-label"
+                               Text="Due date" />
+                    <CalendarDatePicker Grid.Row="3" Grid.Column="1"
+                                        Classes.error="{Binding Form.Errors[DueDate], Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                        HorizontalAlignment="Stretch"
+                                        SelectedDate="{Binding Form.DueDate}" />
+                    <TextBlock Grid.Row="3" Grid.Column="2"
+                               Classes="field-error"
+                               Text="{Binding Form.Errors[DueDate]}" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="0"
+                               Classes="field-label"
+                               Text="Priority" />
+                    <StackPanel Grid.Row="4" Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="16">
+                        <RadioButton IsChecked="{Binding Form.Priority, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:TaskPriority.Low}}"
+                                     Content="Low" />
+                        <RadioButton IsChecked="{Binding Form.Priority, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:TaskPriority.Medium}}"
+                                     Content="Medium" />
+                        <RadioButton IsChecked="{Binding Form.Priority, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:TaskPriority.High}}"
+                                     Content="High" />
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="5" Grid.Column="0"
+                               Classes="field-label"
+                               Text="Estimate" />
+                    <Grid Grid.Row="5" Grid.Column="1"
+                          ColumnDefinitions="*,Auto"
+                          ColumnSpacing="12">
+                        <Slider Grid.Column="0"
+                                Value="{Binding Form.Estimate}"
+                                Minimum="0" Maximum="40"
+                                IsSnapToTickEnabled="True" TickFrequency="1" />
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Form.Estimate, StringFormat='{}{0:0} h'}" />
+                    </Grid>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0"
+                               Classes="field-label"
+                               Text="Notify watchers" />
+                    <ToggleSwitch Grid.Row="6" Grid.Column="1"
+                                  IsChecked="{Binding Form.NotifyWatchers}"
+                                  OnContent="On" OffContent="Off" />
+
+                    <StackPanel Grid.Row="7" Grid.Column="1"
+                                Orientation="Horizontal"
+                                Margin="0,8,0,0"
+                                Spacing="8"
+                                HorizontalAlignment="Right">
+                        <Button Command="{Binding CancelCommand}"
+                                Content="Cancel" />
+                        <!-- ReSharper disable once Xaml.StyleClassNotFound -->
+                        <Button Classes="accent"
+                                Command="{Binding SaveCommand}"
+                                Content="Create task" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

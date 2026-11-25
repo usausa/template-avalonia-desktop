@@ -4,14 +4,16 @@
              RequestedThemeVariant="Default">
 
     <Application.Styles>
-        <FluentTheme />
+        <Fluent2Theme />
+        <StyleInclude Source="Assets/Styles/Styles.axaml" />
     </Application.Styles>
 
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <MergeResourceInclude Source="Assets/Styles/Colors.axaml" />
-                <MergeResourceInclude Source="Assets/Styles/Styles.axaml" />
+                <MergeResourceInclude Source="Assets/Styles/Converters.axaml" />
+                <MergeResourceInclude Source="Assets/Styles/Icons.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

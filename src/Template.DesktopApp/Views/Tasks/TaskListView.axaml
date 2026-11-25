@@ -1,0 +1,262 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="http://smart/avalonia"
+             xmlns:models="using:Template.DesktopApp.Models"
+             xmlns:module="clr-namespace:Template.DesktopApp.Views.Tasks"
+             mc:Ignorable="d"
+             x:Class="Template.DesktopApp.Views.Tasks.TaskListView"
+             x:DataType="module:TaskListViewModel"
+             s:DataContextResolver.Type="module:TaskListViewModel"
+             d:DesignWidth="1040" d:DesignHeight="756">
+
+    <UserControl.Styles>
+        <Style Selector="Grid.body">
+            <Setter Property="ColumnSpacing" Value="16" />
+        </Style>
+        <Style Selector="Border.detail">
+            <Setter Property="Width" Value="320" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <ContainerQuery Name="Page"
+                        Query="max-width:900">
+            <Style Selector="Border.detail">
+                <Setter Property="IsVisible" Value="False" />
+            </Style>
+            <Style Selector="Grid.body">
+                <Setter Property="ColumnSpacing" Value="0" />
+            </Style>
+        </ContainerQuery>
+    </UserControl.Styles>
+
+    <!-- Content -->
+    <Grid RowDefinitions="Auto,*"
+          Margin="24"
+          RowSpacing="16"
+          Container.Name="Page" Container.Sizing="Width">
+
+        <!-- Header -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*,Auto">
+            <StackPanel Grid.Column="0"
+                        Classes="page-header">
+                <TextBlock Classes="caption"
+                           Text="Tasks" />
+                <StackPanel Orientation="Horizontal"
+                            Spacing="12">
+                    <TextBlock Classes="page-title"
+                               Text="Task list" />
+                    <Border Classes="badge attention">
+                        <TextBlock Text="{Binding OpenCount, StringFormat='{}{0} open'}" />
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+            <!-- ReSharper disable once Xaml.StyleClassNotFound -->
+            <Button Grid.Column="1"
+                    Classes="accent"
+                    VerticalAlignment="Center"
+                    Command="{Binding NewCommand}">
+                <StackPanel Orientation="Horizontal"
+                            Spacing="8">
+                    <PathIcon Classes="button-icon"
+                              Data="{StaticResource AddIcon}" />
+                    <TextBlock Text="New task" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <!-- Body -->
+        <Grid Grid.Row="1"
+              Classes="body"
+              ColumnDefinitions="*,Auto">
+
+            <!-- List -->
+            <Border Grid.Column="0"
+                    Classes="card"
+                    Padding="0">
+                <DockPanel>
+                    <Grid DockPanel.Dock="Top"
+                          ColumnDefinitions="240,*,Auto,16,Auto"
+                          Margin="16,12">
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding FilterText}"
+                                 PlaceholderText="Filter tasks">
+                            <TextBox.InnerLeftContent>
+                                <PathIcon Classes="nav-icon"
+                                          Margin="10,0,0,0"
+                                          Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                          Data="{StaticResource SearchIcon}" />
+                            </TextBox.InnerLeftContent>
+                        </TextBox>
+                        <CheckBox Grid.Column="2"
+                                  IsChecked="{Binding ShowCompleted}"
+                                  Content="Show completed" />
+                        <ComboBox Grid.Column="4"
+                                  Width="180"
+                                  ItemsSource="{s:EnumValues {x:Type models:TaskSort}}"
+                                  SelectedItem="{Binding Sort}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="models:TaskSort">
+                                    <TextBlock Text="{Binding Converter={StaticResource TaskSortTextConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                    <TableView ItemsSource="{Binding Tasks}"
+                               SelectedItem="{Binding SelectedTask}"
+                               CanUserResizeColumns="True">
+                        <TableView.Columns>
+                            <TableViewColumn Width="44"
+                                             Header="">
+                                <TableViewColumn.CellTemplate>
+                                    <DataTemplate x:DataType="models:TaskItem">
+                                        <CheckBox MinWidth="0"
+                                                  HorizontalAlignment="Center"
+                                                  IsChecked="{Binding State, Mode=OneWay, Converter={s:CompareToBool}, ConverterParameter={x:Static models:TaskState.Done}}"
+                                                  IsHitTestVisible="False"
+                                                  Focusable="False" />
+                                    </DataTemplate>
+                                </TableViewColumn.CellTemplate>
+                            </TableViewColumn>
+                            <TableViewColumn Width="3*"
+                                             Binding="{Binding Name}"
+                                             Header="Task" />
+                            <TableViewColumn Width="1.3*"
+                                             Header="Assignee">
+                                <TableViewColumn.CellTemplate>
+                                    <DataTemplate x:DataType="models:TaskItem">
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="8">
+                                            <Border Classes="avatar"
+                                                    Background="{Binding Assignee.Color}">
+                                                <TextBlock Text="{Binding Assignee.Name, Converter={StaticResource InitialConverter}}" />
+                                            </Border>
+                                            <TextBlock VerticalAlignment="Center"
+                                                       Text="{Binding Assignee.Name}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </TableViewColumn.CellTemplate>
+                            </TableViewColumn>
+                            <TableViewColumn Width="128"
+                                             Header="Status">
+                                <TableViewColumn.CellTemplate>
+                                    <DataTemplate x:DataType="models:TaskItem">
+                                        <Border Classes="badge"
+                                                Classes.attention="{Binding State, Converter={s:CompareToBool}, ConverterParameter={x:Static models:TaskState.InProgress}}"
+                                                Classes.caution="{Binding State, Converter={s:CompareToBool}, ConverterParameter={x:Static models:TaskState.InReview}}"
+                                                Classes.success="{Binding State, Converter={s:CompareToBool}, ConverterParameter={x:Static models:TaskState.Done}}">
+                                            <TextBlock Text="{Binding State, Converter={StaticResource TaskStateTextConverter}}" />
+                                        </Border>
+                                    </DataTemplate>
+                                </TableViewColumn.CellTemplate>
+                            </TableViewColumn>
+                            <TableViewColumn Width="104"
+                                             Binding="{Binding DueDate, StringFormat='{}{0:yyyy/MM/dd}'}"
+                                             Header="Due" />
+                            <TableViewColumn Width="1.2*"
+                                             HorizontalContentAlignment="Stretch"
+                                             Header="Progress">
+                                <TableViewColumn.CellTemplate>
+                                    <DataTemplate x:DataType="models:TaskItem">
+                                        <ProgressBar MinWidth="0"
+                                                     Margin="0,0,12,0"
+                                                     HorizontalAlignment="Stretch"
+                                                     Value="{Binding Progress}"
+                                                     Minimum="0" Maximum="100" />
+                                    </DataTemplate>
+                                </TableViewColumn.CellTemplate>
+                            </TableViewColumn>
+                        </TableView.Columns>
+                    </TableView>
+                </DockPanel>
+            </Border>
+
+            <!-- Detail -->
+            <Border Grid.Column="1"
+                    Classes="card detail">
+                <Panel>
+                    <TextBlock Classes="caption"
+                               IsVisible="{Binding SelectedTask, Converter={x:Static ObjectConverters.IsNull}}"
+                               Text="Select a task to edit it." />
+                    <StackPanel Spacing="12"
+                                IsVisible="{Binding SelectedTask, Converter={x:Static ObjectConverters.IsNotNull}}">
+                        <TextBlock Classes="section-title"
+                                   Text="Task details" />
+                        <TextBox Classes.error="{Binding Form.Errors[Name], Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                 Text="{Binding Form.Name}"
+                                 PlaceholderText="Task name"
+                                 ToolTip.Tip="{Binding Form.Errors[Name]}" />
+                        <ComboBox Classes.error="{Binding Form.Errors[Assignee], Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                  HorizontalAlignment="Stretch"
+                                  ItemsSource="{Binding Members}"
+                                  SelectedItem="{Binding Form.Assignee}"
+                                  PlaceholderText="Assignee"
+                                  ToolTip.Tip="{Binding Form.Errors[Assignee]}"
+                                  DisplayMemberBinding="{Binding Name, x:DataType=models:Member}" />
+                        <Grid ColumnDefinitions="*,8,*">
+                            <ComboBox Grid.Column="0"
+                                      HorizontalAlignment="Stretch"
+                                      ItemsSource="{s:EnumValues {x:Type models:TaskState}}"
+                                      SelectedItem="{Binding Form.State}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:TaskState">
+                                        <TextBlock Text="{Binding Converter={StaticResource TaskStateTextConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <CalendarDatePicker Grid.Column="2"
+                                                Classes.error="{Binding Form.Errors[DueDate], Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                                HorizontalAlignment="Stretch"
+                                                ToolTip.Tip="{Binding Form.Errors[DueDate]}"
+                                                SelectedDate="{Binding Form.DueDate}" />
+                        </Grid>
+                        <StackPanel Spacing="4">
+                            <TextBlock Classes="caption"
+                                       Text="Priority" />
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="16">
+                                <RadioButton IsChecked="{Binding Form.Priority, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:TaskPriority.Low}}"
+                                             Content="Low" />
+                                <RadioButton IsChecked="{Binding Form.Priority, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:TaskPriority.Medium}}"
+                                             Content="Medium" />
+                                <RadioButton IsChecked="{Binding Form.Priority, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:TaskPriority.High}}"
+                                             Content="High" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Grid.Column="0"
+                                           Classes="caption"
+                                           Text="Estimate" />
+                                <TextBlock Grid.Column="1"
+                                           Classes="caption"
+                                           Text="{Binding Form.Estimate, StringFormat='{}{0:0} h'}" />
+                            </Grid>
+                            <Slider Value="{Binding Form.Estimate}"
+                                    Minimum="0" Maximum="40"
+                                    IsSnapToTickEnabled="True" TickFrequency="1" />
+                        </StackPanel>
+                        <StackPanel Spacing="4">
+                            <TextBlock Classes="caption"
+                                       Text="Notify watchers" />
+                            <ToggleSwitch IsChecked="{Binding Form.NotifyWatchers}"
+                                          OnContent="On" OffContent="Off" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="8"
+                                    HorizontalAlignment="Right">
+                            <Button Command="{Binding CancelCommand}"
+                                    Content="Cancel" />
+                            <!-- ReSharper disable once Xaml.StyleClassNotFound -->
+                            <Button Classes="accent"
+                                    Command="{Binding SaveCommand}"
+                                    Content="Save changes" />
+                        </StackPanel>
+                    </StackPanel>
+                </Panel>
+            </Border>
+        </Grid>
+    </Grid>
+
+</UserControl>

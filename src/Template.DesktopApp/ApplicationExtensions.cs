@@ -17,6 +17,7 @@ using Template.DesktopApp.Extender;
 #endif
 using Template.DesktopApp.Services;
 using Template.DesktopApp.Settings;
+using Template.DesktopApp.Shell;
 using Template.DesktopApp.Views;
 
 public static partial class ApplicationExtensions
@@ -55,6 +56,9 @@ public static partial class ApplicationExtensions
     {
         builder.Services.AddAvaloniaServices();
 
+        // System
+        builder.Services.AddSingleton(TimeProvider.System);
+
         // Setting
         builder.Services.AddOptions<Setting>().BindConfiguration("Setting").ValidateDataAnnotations().ValidateOnStart();
         builder.Services.AddSingleton(static p => p.GetRequiredService<IOptions<Setting>>().Value);
@@ -80,6 +84,7 @@ public static partial class ApplicationExtensions
         builder.Services.AddSingleton<IDialogService, DialogService>();
 
         // Window
+        builder.Services.AddSingleton<NavigationMenu>();
         builder.Services.AddSingleton<MainWindow>();
         // View & ViewModel
         builder.Services.AddViews();
@@ -111,7 +116,7 @@ public static partial class ApplicationExtensions
 
         // Navigate to view
         var navigator = host.Services.GetRequiredService<INavigator>();
-        await navigator.ForwardAsync(ViewId.Menu).ConfigureAwait(false);
+        await navigator.ForwardAsync(ViewId.Home).ConfigureAwait(false);
     }
 
     public static async ValueTask ExitApplicationAsync(this IHost host)
